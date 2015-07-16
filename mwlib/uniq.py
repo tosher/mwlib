@@ -60,7 +60,7 @@ class Uniquifier(object):
         self.txt = txt
         rx = self.rx
         if rx is None:
-            tags = set("nowiki math imagemap gallery source pre ref timeline poem pages".split())
+            tags = set("nowiki math imagemap gallery source pre ref timeline poem pages uml".split())
             from mwlib import tagext
             tags.update(tagext.default_registry.names())
 

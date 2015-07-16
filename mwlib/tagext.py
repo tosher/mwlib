@@ -97,7 +97,7 @@ fan featuredimage gallerypopulate linkfilter listpages
 loggedin loggedout newusers pagequality pollembed randomfeatureduser
 randomgameunit randomimagebycategory randomuserswithavatars
 rss siteactivity userpoll videogallerypopulate vote
-welcomeuser xsound pageby uml graphviz categorytree summary slippymap""".split()
+welcomeuser xsound pageby graphviz categorytree summary slippymap""".split()
 
 for name in tags_to_ignore:
     def _f(name):
@@ -128,6 +128,16 @@ class TimelineExtension(TagExtension):
         from mwlib.parser import Timeline
         return Timeline(source)
 register(TimelineExtension)
+
+
+class UmlExtension(TagExtension):
+    name = "uml"
+
+    def __call__(self, source, attributes):
+        from mwlib.parser import Uml
+        return Uml(source)
+
+register(UmlExtension)
 
 
 class MathExtension(TagExtension):

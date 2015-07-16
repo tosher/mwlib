@@ -21,4 +21,4 @@ from mwlib.parser.nodes import (Node, Math, Ref, Item, ItemList, Style,
                                 Book, Chapter, Article, Paragraph, Section,
                                 Timeline, TagNode, PreFormatted, URL, NamedURL,
                                 Table, Row, Cell, Caption, Link, ArticleLink, SpecialLink,
-                                NamespaceLink, InterwikiLink, LangLink, CategoryLink, ImageLink, Text, Control)
+                                NamespaceLink, InterwikiLink, LangLink, CategoryLink, ImageLink, Text, Control, Uml)

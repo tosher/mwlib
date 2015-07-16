@@ -13,7 +13,7 @@ from mwlib.advtree import (Article, ArticleLink, Big, Blockquote, Book, Breaking
                            HorizontalRule, ImageLink, ImageMap, Inserted, InterwikiLink, Italic, Item, ItemList, LangLink, Link,
                            Math, NamedURL, NamespaceLink, Overline, Paragraph, PreFormatted, Reference, ReferenceList,
                            Row, Section, Small, Source, Span, SpecialLink, Strike, Strong, Sub, Sup, Table, Teletyped, Text, Timeline,
-                           Underline, URL, Var)
+                           Underline, URL, Var, Uml)
 
 from mwlib.treecleanerhelper import getNodeHeight, splitRow
 from mwlib import parser
@@ -132,7 +132,7 @@ class TreeCleaner(object):
         # list of nodes which do not require child nodes
         self.childlessOK = [ArticleLink, BreakingReturn, CategoryLink, Cell, Chapter, Code, 
                             HorizontalRule, ImageLink, ImageMap, InterwikiLink, LangLink, Link, Math,
-                            NamedURL, NamespaceLink, ReferenceList, Reference, SpecialLink, Text, Timeline, URL]
+                            NamedURL, NamespaceLink, ReferenceList, Reference, SpecialLink, Text, Timeline, URL, Uml]
         # exceptions to the above. if any of the list items is explicitly set as a css style the node is not removed
         common_attrs = [u'width', u'height', u'page-break-before', u'page-break-after']
         self.childless_exceptions = {Div: common_attrs,

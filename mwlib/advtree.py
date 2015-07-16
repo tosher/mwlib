@@ -24,7 +24,7 @@ from mwlib.parser import Math, Ref, Link, URL, NamedURL # not used but imported
 from mwlib.parser import CategoryLink, SpecialLink, Caption, LangLink # not used but imported
 from mwlib.parser import ArticleLink, InterwikiLink, NamespaceLink
 from mwlib.parser import Item, ItemList,  Node, Table, Row, Cell, Paragraph, PreFormatted
-from mwlib.parser import Section, Style, TagNode, Text, Timeline
+from mwlib.parser import Section, Style, TagNode, Text, Timeline, Uml
 from mwlib.parser import  ImageLink, Article, Book, Chapter
 import copy
 from mwlib.log import Log

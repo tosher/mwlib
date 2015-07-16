@@ -105,6 +105,9 @@ class Section(Node):
 class Timeline(Node):
     """A <timeline> tag"""
 
+class Uml(Node):
+    """A <uml> tag"""
+
 class TagNode(Node):
     """Some tag i.e. <TAGNAME>...</TAGNAME>
     

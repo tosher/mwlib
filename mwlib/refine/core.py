@@ -291,7 +291,7 @@ class parse_preformatted(object):
                     tokens[start:i+1] = [T(type=T.t_complex_preformatted, children=sub, blocknode=True)]
                     i = start+1
                 start = None
-            elif t.blocknode or (t.type==T.t_complex_tag and t.tagname in ("blockquote", "table", "timeline", "div")):
+            elif t.blocknode or (t.type==T.t_complex_tag and t.tagname in ("blockquote", "table", "timeline", "uml", "div")):
                 start = None
                 i+=1
             else:
@@ -812,6 +812,9 @@ class parse_uniq(object):
 
     def create_timeline(self, name, vlist, inner, xopts):
         return T(type=T.t_complex_tag, tagname="timeline", vlist=vlist, timeline=inner, blocknode=True)
+
+    def create_uml(self, name, vlist, inner, xopts):
+        return T(type=T.t_complex_tag, tagname="uml", vlist=vlist, uml=inner, blocknode=True)
 
     def create_math(self, name, vlist, inner, xopts):
         return T(type=T.t_complex_tag, tagname="math", vlist=vlist, math=inner)

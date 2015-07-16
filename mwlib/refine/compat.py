@@ -106,6 +106,9 @@ def _change_classes(node):
             elif node.tagname=="timeline":
                 node.__class__=N.Timeline
                 node.caption = node.timeline
+            elif node.tagname == "uml":
+                node.__class__ = N.Uml
+                node.caption = 'uml'
             elif node.tagname=="imagemap":
                 if node.imagemap.imagelink:
                     _change_classes(node.imagemap.imagelink)
