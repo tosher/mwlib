@@ -650,12 +650,21 @@ class combined_parser(object):
 
 def mark_style_tags(tokens, xopts):
     tags = set("abbr tt strike ins del small sup sub b strong cite i u em big font s var kbd".split())
+    protected_css_classes = ['fa']  # fontawesome class for <i> empty tag
 
     todo = [(0, dict(), tokens)]
 
-    
+    def is_protected_css_class(state):
+	class_css = ''
+	obj = state.get('i', None)
+	if obj:
+	    class_css = obj.vlist.get('class', '').split()
+	    if any(val in protected_css_classes for val in class_css):
+		return True
+	return False
+
     def create():
-        if not state or i<=start:
+        if not state or i <= start and not is_protected_css_class(state):
             return False
 
         children = tokens[start:i]

@@ -241,6 +241,9 @@ class TreeCleaner(object):
         # all node classes that have content but no text need to be listed here to prevent removal
         self.contentWithoutTextClasses = [Gallery, ImageLink, Timeline, Uml]
 
+        # protected css classes
+        self.protected_css_classes = ['fa']
+
 
     def clean(self, cleanerMethods):
         """Clean parse tree using cleaner methods in the methodList."""
@@ -320,15 +323,20 @@ class TreeCleaner(object):
             self.removeListOnlyParagraphs(c)
 
     def removeChildlessNodes(self, node):
-        """Remove nodes that have no children except for nodes in childlessOk list."""   
+        """Remove nodes that have no children except for nodes in childlessOk list or css class of node in protected."""
         is_exception = False
+
+        css_class = node.attributes.get('class', '').split()
+        if any(val in self.protected_css_classes for val in css_class):
+            is_exception = True
+
         if node.__class__ in self.childless_exceptions.keys() and node.style:
             for style_type in self.childless_exceptions[node.__class__]:
                 if style_type in node.style.keys():
                     is_exception = True
 
         if not node.children and node.__class__ not in self.childlessOK and not is_exception:
-            if node.parent.__class__ == Section and not node.previous: 
+            if node.parent.__class__ == Section and not node.previous:
                 return # make sure that the first child of a section is not removed - this is the section caption
             removeNode = node
             while removeNode.parent and not removeNode.siblings and removeNode.parent.__class__ not in self.childlessOK:
@@ -905,8 +913,9 @@ class TreeCleaner(object):
             self.simplifyBlockNodes(c)
 
     def removeTextlessStyles(self, node):
-        """Remove style nodes that have no children with text"""
-        if node.__class__ in self.style_nodes:
+        """Remove style nodes that have no children with text and css class of node not in protected"""
+        css_class = node.attributes.get('class', '').split()
+        if node.__class__ in self.style_nodes and not any(val in self.protected_css_classes for val in css_class):
             if not node.getAllDisplayText().strip() and node.parent:
                 if node.children:
                     node.parent.replaceChild(node, newchildren=node.children)
