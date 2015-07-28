@@ -10,6 +10,8 @@ from hashlib import md5
 
 _basedir = None
 
+plantuml_paths = [os.path.expanduser('~/plantuml/'), os.path.dirname(os.path.abspath(__file__))]
+
 
 def _get_global_basedir():
     global _basedir
@@ -19,6 +21,14 @@ def _get_global_basedir():
         import shutil
         atexit.register(shutil.rmtree, _basedir)
     return _basedir
+
+
+def _get_plantuml_path():
+    for path in plantuml_paths:
+        jar_path = os.path.join(path, 'plantuml.jar')
+        if os.path.exists(jar_path):
+            return path
+    return None
 
 
 def drawUml(script, basedir=None):
@@ -42,7 +52,7 @@ def drawUml(script, basedir=None):
     with open(scriptfile, 'w') as scruml:
         scruml.write(script)
 
-    plantumjar_path = os.path.join(os.path.dirname(__file__))
+    plantumjar_path = _get_plantuml_path()
 
     cmd = subprocess.Popen('java -Djava.awt.headless=true -Dplantuml.include.path="%(plantumjar_path)s" -jar plantuml.jar -o "%(basedir)s" %(scriptfile)s' % {
         'plantumjar_path': plantumjar_path, 'scriptfile': scriptfile, 'basedir': basedir}, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
