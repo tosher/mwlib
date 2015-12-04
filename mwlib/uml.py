@@ -52,10 +52,17 @@ def drawUml(script, basedir=None):
     with open(scriptfile, 'w') as scruml:
         scruml.write(script)
 
-    plantumjar_path = _get_plantuml_path()
+    plantumljar_path = _get_plantuml_path()
+    plantumljar_path_binary = os.path.join(plantumljar_path, 'plantuml.jar')
 
-    cmd = subprocess.Popen('java -Djava.awt.headless=true -Dplantuml.include.path="%(plantumjar_path)s" -jar plantuml.jar -o "%(basedir)s" %(scriptfile)s' % {
-        'plantumjar_path': plantumjar_path, 'scriptfile': scriptfile, 'basedir': basedir}, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+    # Unable to access jarfile plantuml.jar
+    # cmd_string = 'java -Djava.awt.headless=true -Dplantuml.include.path="%(plantumljar_path)s" -jar plantuml.jar -o "%(basedir)s" %(scriptfile)s' % {
+    #     'plantumljar_path': plantumljar_path, 'scriptfile': scriptfile, 'basedir': basedir}
+
+    cmd_string = 'java -Djava.awt.headless=true -jar %(plantumljar_path_binary)s -o "%(basedir)s" %(scriptfile)s' % {
+        'plantumljar_path_binary': plantumljar_path_binary, 'scriptfile': scriptfile, 'basedir': basedir}
+
+    cmd = subprocess.Popen(cmd_string, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
 
     err = cmd.communicate()
 
