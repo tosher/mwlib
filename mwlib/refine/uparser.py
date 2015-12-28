@@ -8,19 +8,15 @@ from mwlib.refine import core, compat
 
 log = Log('refine.uparser')
 
-def parseString(
-    title=None,
-    raw=None,
-    wikidb=None,
-    revision=None,
-    lang=None,
-    magicwords=None,
-    expandTemplates=True):
+
+def parseString(title=None, raw=None, wikidb=None, revision=None,
+                lang=None, magicwords=None, expandTemplates=True):
     """parse article with title from raw mediawiki text"""
 
     uniquifier = None
     siteinfo = None
     assert title is not None, 'no title given'
+
     if raw is None:
         page = wikidb.normalize_and_get_page(title, 0)
         if page:
@@ -29,12 +25,12 @@ def parseString(
             raw = None
 
         assert raw is not None, "cannot get article %r" % (title,)
-    input = raw
+    input_raw = raw
     te = None
     if wikidb:
         if expandTemplates:
             te = expander.Expander(raw, pagename=title, wikidb=wikidb)
-            input = te.expandTemplates(True)
+            input_raw = te.expandTemplates(True)
             uniquifier = te.uniquifier
         if hasattr(wikidb, 'get_siteinfo'):
             siteinfo = wikidb.get_siteinfo()
@@ -45,10 +41,11 @@ def parseString(
             assert not isinstance(src, dict)
 
         if not src:
-            src=metabook.source()
+            src = metabook.source()
 
         if lang is None:
             lang = src.language
+
         if magicwords is None:
             if siteinfo is not None and 'magicwords' in siteinfo:
                 magicwords = siteinfo['magicwords']
@@ -59,7 +56,7 @@ def parseString(
         nshandler = nshandling.get_nshandler_for_lang(lang)
     else:
         nshandler = nshandling.nshandler(siteinfo)
-    a = compat.parse_txt(input, title=title, wikidb=wikidb, nshandler=nshandler, lang=lang, magicwords=magicwords, uniquifier=uniquifier, expander=te)
+    a = compat.parse_txt(input_raw, title=title, wikidb=wikidb, nshandler=nshandler, lang=lang, magicwords=magicwords, uniquifier=uniquifier, expander=te)
 
     a.caption = title
     if te and te.magic_displaytitle:
@@ -71,7 +68,8 @@ def parseString(
 
     return a
 
-def simpleparse(raw,lang=None):    # !!! USE FOR DEBUGGING ONLY !!! does not use post processors
-    a=compat.parse_txt(raw,lang=lang)
+
+def simpleparse(raw, lang=None):  # !!! USE FOR DEBUGGING ONLY !!! does not use post processors
+    a = compat.parse_txt(raw, lang=lang)
     core.show(a)
     return a

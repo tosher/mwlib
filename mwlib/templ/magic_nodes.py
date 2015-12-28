@@ -162,6 +162,7 @@ def formatnum(val):
     else:
         return res
 
+
 class Formatnum(nodes.Node):
     def flatten(self, expander, variables, res):
         arg0 = []
